@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Tarot - Unified Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to: { opacity: 1; } }
+        
+        /* Onboarding specific styles */
+        .step-card { display: none; }
+        .step-card.active { display: block; animation: stepFadeIn 0.5s; }
+        @keyframes stepFadeIn { from { opacity: 0; transform: translateY(20px); } to: { opacity: 1; transform: translateY(0); } }
+        .tag { transition: all 0.2s ease; }
+        .slider-thumb::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: #4f46e5; cursor: pointer; border-radius: 50%; }
+        .slider-thumb::-moz-range-thumb { width: 20px; height: 20px; background: #4f46e5; cursor: pointer; border-radius: 50%; }
+        input:invalid, select:invalid { border-color: #e53e3e; }
+
+        /* Roadmap Tab Styling */
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { border-color: #4f46e5; color: #4f46e5; background-color: #eef2ff; font-weight: 600; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+    </style>
+</head>
+<body>
+
+    <!-- =================================================================== -->
+    <!-- PAGE 1: LANDING PAGE                                                -->
+    <!-- =================================================================== -->
+    <div id="page-landing" class="page active">
+        <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+            <div class="text-center max-w-3xl">
+                <div class="flex items-center justify-center space-x-3 text-3xl font-bold text-indigo-600 mb-4">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                    <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">Career Tarot</h1>
+                </div>
+                <h2 class="text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900">
+                    Chart Your <span style="background: -webkit-linear-gradient(45deg, #4f46e5, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Future</span> With Confidence.
+                </h2>
+                <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                    Career Tarot connects your unique talents to the future of work. We analyze your profile and astrological chart to recommend roles in the private sector, government, and freelancing.
+                </p>
+            </div>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+                <a href="#" onclick="showPage('page-student-onboarding')" class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-200 group">
+                    <div class="flex items-center space-x-4"><div class="bg-indigo-100 p-3 rounded-full"><i data-lucide="user" class="text-indigo-600"></i></div><h3 class="text-2xl font-bold text-gray-800">For Students</h3></div>
+                    <p class="mt-4 text-gray-600">Get a personalized, multi-path roadmap to a career you'll love. Understand your strengths and find your perfect fit.</p>
+                    <div class="mt-6 font-semibold text-indigo-600 flex items-center group-hover:underline">Find My Path <i data-lucide="arrow-right" class="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"></i></div>
+                </a>
+                <a href="#" onclick="showPage('page-employer-dashboard')" class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-200 group">
+                    <div class="flex items-center space-x-4"><div class="bg-purple-100 p-3 rounded-full"><i data-lucide="briefcase" class="text-purple-600"></i></div><h3 class="text-2xl font-bold text-gray-800">For Employers</h3></div>
+                    <p class="mt-4 text-gray-600">Discover a curated pool of motivated, high-potential student talent perfectly matched to your company's needs.</p>
+                    <div class="mt-6 font-semibold text-purple-600 flex items-center group-hover:underline">Find Talent <i data-lucide="arrow-right" class="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"></i></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- PAGE 2: STUDENT ONBOARDING                                          -->
+    <!-- =================================================================== -->
+    <div id="page-student-onboarding" class="page">
+        <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+            <header class="w-full max-w-4xl mb-4 text-center">
+                <a href="#" onclick="showPage('page-landing')" class="flex items-center justify-center space-x-2 text-2xl font-bold text-indigo-600"><i data-lucide="sparkles"></i><span>Career Tarot</span></a>
+                <div class="mt-4 w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%; transition: width 0.5s ease;"></div>
+                </div>
+                <p id="progress-text" class="text-center text-sm text-gray-500 mt-1">Step 1 of 7</p>
+            </header>
+            <main class="w-full max-w-2xl">
+                <form id="onboarding-form">
+                    <!-- Step 1: Academics -->
+                    <div id="step-1" class="step-card active"><div class="bg-white p-8 rounded-xl shadow-lg"><div class="text-center"><h2 class="text-3xl font-bold">Your Educational Background</h2><p class="mt-2 text-gray-600">This helps us understand your foundational knowledge.</p></div><div class="mt-8 space-y-4"><div><label class="font-medium">Highest Level of Education</label><select id="education-level" name="educationLevel" class="w-full mt-1 p-3 border border-gray-300 rounded-lg" required><option value="">Select Level</option><option value="High School">High School</option><option value="Bachelor's">Bachelor's</option><option value="Master's">Master's</option><option value="PhD">PhD</option></select></div><div><label class="font-medium">Field of Study / Major</label><input id="major" name="major" type="text" placeholder="e.g., Computer Science" class="w-full mt-1 p-3 border border-gray-300 rounded-lg" required></div><div><label class="font-medium">Age</label><input id="age" name="age" type="number" placeholder="e.g., 21" class="w-full mt-1 p-3 border border-gray-300 rounded-lg" required></div><div class="flex justify-end pt-4"><button type="button" onclick="nextStep(2)" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg">Next</button></div></div></div></div>
+                    
+                    <!-- Step 2: Skills -->
+                    <div id="step-2" class="step-card"><div class="bg-white p-8 rounded-xl shadow-lg"><div class="text-center"><h2 class="text-3xl font-bold">What are your superpowers?</h2><p class="mt-2 text-gray-600">List technical skills and select your strongest soft skills.</p></div><div class="mt-8 space-y-6"><div><label class="font-medium">Technical Skills (add at least one)</label><div id="hard-skills-container" class="flex flex-wrap gap-2 my-2"></div><div class="flex items-center gap-2"><input id="hard-skills-input" type="text" placeholder="Type a skill..." class="w-full p-3 border border-gray-300 rounded-lg"><button type="button" id="add-hard-skill-btn" class="bg-indigo-600 text-white p-3 rounded-lg flex-shrink-0 hover:bg-indigo-700 transition-colors"><i data-lucide="plus" class="w-5 h-5"></i></button></div><input type="hidden" id="hard-skills-hidden" name="hard-skills" required></div><div><label class="font-medium">Soft Skills (add at least three)</label><div id="soft-skills-tags-container" class="flex flex-wrap gap-2 my-2"></div><div class="flex items-center gap-2"><input id="soft-skills-input" type="text" placeholder="Type a skill..." class="w-full p-3 border border-gray-300 rounded-lg"><button type="button" id="add-soft-skill-btn" class="bg-purple-600 text-white p-3 rounded-lg flex-shrink-0 hover:bg-purple-700 transition-colors"><i data-lucide="plus" class="w-5 h-5"></i></button></div><input type="hidden" id="soft-skills-hidden" name="soft-skills" required></div><div class="flex justify-between pt-4"><button type="button" onclick="prevStep(1)" class="bg-gray-200 font-bold py-3 px-6 rounded-lg">Back</button><button type="button" onclick="nextStep(3)" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg">Next</button></div></div></div></div>
+                    
+                    <!-- Step 3: Work Experience -->
+                    <div id="step-3" class="step-card"><div class="bg-white p-8 rounded-xl shadow-lg"><div class="text-center"><h2 class="text-3xl font-bold">Any Work Experience?</h2><p class="mt-2 text-gray-600">Internships, part-time jobs, or full-time roles. This is optional.</p></div><div id="experience-container" class="mt-8 space-y-4"></div><div class="mt-4"><button type="button" id="add-experience-btn" class="text-indigo-600 font-semibold flex items-center gap-1"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Experience</button></div><div class="flex justify-between pt-8"><button type="button" onclick="prevStep(2)" class="bg-gray-200 font-bold py-3 px-6 rounded-lg">Back</button><button type="button" onclick="nextStep(4)" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg">Next</button></div></div></div>
+
+                    <!-- Step 4: Interests -->
+                    <div id="step-4" class="step-card"><div class="bg-white p-8 rounded-xl shadow-lg"><div class="text-center"><h2 class="text-3xl font-bold">What do you genuinely enjoy?</h2><p class="mt-2 text-gray-600">Rate these activities to help us find what motivates you.</p></div><div class="mt-8 space-y-4"><div><label class="font-medium">The Builder (Realistic)</label><p class="text-sm text-gray-500">Working with hands, tools, outdoors.</p><input type="range" name="interestBuilder" min="1" max="5" value="3" class="w-full h-2 bg-gray-200 rounded-lg slider-thumb interest-slider" data-interest="Builder" required></div><div><label class="font-medium">The Thinker (Investigative)</label><p class="text-sm text-gray-500">Solving complex problems, research.</p><input type="range" name="interestThinker" min="1" max="5" value="3" class="w-full h-2 bg-gray-200 rounded-lg slider-thumb interest-slider" data-interest="Thinker" required></div><div><label class="font-medium">The Creator (Artistic)</label><p class="text-sm text-gray-500">Design, self-expression, art.</p><input type="range" name="interestCreator" min="1" max="5" value="3" class="w-full h-2 bg-gray-200 rounded-lg slider-thumb interest-slider" data-interest="Creator" required></div><div class="flex justify-between pt-4"><button type="button" onclick="prevStep(3)" class="bg-gray-200 font-bold py-3 px-6 rounded-lg">Back</button><button type="button" onclick="nextStep(5)" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg">Next</button></div></div></div></div>
+                    
+                    <!-- Step 5: Future Goals -->
+                    <div id="step-5" class="step-card"><div class="bg-white p-8 rounded-xl shadow-lg"><div class="text-center"><h2 class="text-3xl font-bold">What are your future ambitions?</h2><p class="mt-2 text-gray-600">Tell us what you're aiming for after your current degree.</p></div><div class="mt-8 space-y-4" id="future-goals-container">
+                            <label class="flex items-center p-4 border rounded-lg has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-400 cursor-pointer"><input type="radio" name="goal" value="job" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" checked><span class="ml-3 text-gray-700 font-medium">Secure a Job</span></label>
+                            <label class="flex items-center p-4 border rounded-lg has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-400 cursor-pointer"><input type="radio" name="goal" value="masters" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"><span class="ml-3 text-gray-700 font-medium">Pursue a Master's / PhD</span></label>
+                            <label class="flex items-center p-4 border rounded-lg has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-400 cursor-pointer"><input type="radio" name="goal" value="gov_exam" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"><span class="ml-3 text-gray-700 font-medium">Prepare for a Government Exam</span></label>
+                        </div><div class="flex justify-between pt-8"><button type="button" onclick="prevStep(4)" class="bg-gray-200 font-bold py-3 px-6 rounded-lg">Back</button><button type="button" onclick="nextStep(6)" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg">Next</button></div></div></div>
+                    
+                    <!-- Step 6: Job Disinterests -->
+                    <div id="step-6" class="step-card">
+                        <div class="bg-white p-8 rounded-xl shadow-lg">
+                            <div class="text-center">
+                                <h2 class="text-3xl font-bold">Are there any roles you'd avoid?</h2>
+                                <p class="mt-2 text-gray-600">This helps us narrow down the recommendations. (Optional)</p>
+                            </div>
+                            <div class="mt-8 space-y-6">
+                                <div>
+                                    <label class="font-medium">Job Roles to Exclude</label>
+                                    <div id="disinterests-container" class="flex flex-wrap gap-2 my-2"></div>
+                                    <div class="flex items-center gap-2">
+                                        <input id="disinterests-input" type="text" placeholder="e.g., Sales, Customer Support..." class="w-full p-3 border border-gray-300 rounded-lg">
+                                        <button type="button" id="add-disinterest-btn" class="bg-red-500 text-white p-3 rounded-lg flex-shrink-0 hover:bg-red-600 transition-colors">
+                                            <i data-lucide="plus" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
+                                    <input type="hidden" id="disinterests-hidden" name="disinterests">
+                                </div>
+                                <div class="flex justify-between pt-4">
+                                    <button type="button" onclick="prevStep(5)" class="bg-gray-200 font-bold py-3 px-6 rounded-lg">Back</button>
+                                    <button type="button" onclick="nextStep(7)" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Finalize -->
+                    <div id="step-7" class="step-card"><div class="bg-white p-8 rounded-xl shadow-lg text-center"><h2 class="text-3xl font-bold">You're All Set!</h2><p class="mt-2 text-gray-600">We have everything we need to build your personalized career reading.</p><div class="mt-8 flex flex-col items-center space-y-4"><button type="submit" class="w-full max-w-xs bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700">Build My Career Tarot</button><button type="button" onclick="prevStep(6)" class="text-gray-600 hover:underline">Go Back</button></div></div></div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <!-- PAGE 3: ASTROLOGY INPUT, PAGE 4: STUDENT ROADMAP, PAGE 5: EMPLOYER DASHBOARD -->
+    <!-- These pages are unchanged -->
+    <div id="page-astrology" class="page">
+        <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+            <header class="w-full max-w-4xl mb-4 text-center">
+                <a href="#" onclick="showPage('page-landing')" class="flex items-center justify-center space-x-2 text-2xl font-bold text-indigo-600"><i data-lucide="sparkles"></i><span>Career Tarot</span></a>
+                 <p class="text-center text-sm text-gray-500 mt-1">Astrology Reading</p>
+            </header>
+            <main class="w-full max-w-2xl">
+                 <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold">Your Cosmic Blueprint</h2>
+                        <p class="mt-2 text-gray-600">Provide your birth details for a Vedic astrology-based career analysis.</p>
+                    </div>
+                    <form id="astrology-form" class="mt-8 space-y-4">
+                        <div>
+                            <label class="font-medium">Date of Birth</label>
+                            <div class="grid grid-cols-3 gap-2 mt-1">
+                                <select name="birthDay" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <option value="">Day</option>
+                                    <!-- Options will be populated by JS -->
+                                </select>
+                                <select name="birthMonth" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <option value="">Month</option>
+                                    <option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option>
+                                </select>
+                                <select name="birthYear" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <option value="">Year</option>
+                                    <!-- Options will be populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                             <label class="font-medium">Time of Birth</label>
+                             <input type="time" name="birthTime" class="w-full mt-1 p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        <div>
+                            <label class="font-medium">Location of Birth</label>
+                            <input type="text" name="birthLocation" placeholder="e.g., Lucknow, India" class="w-full mt-1 p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        <div class="flex justify-end pt-4">
+                            <button type="submit" class="bg-purple-600 text-white font-bold py-3 px-6 rounded-lg">Generate Combined Reading</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div id="page-student-roadmap" class="page">
+        <header class="bg-white shadow-sm p-4 sticky top-0 z-10">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="#" onclick="showPage('page-landing')" class="flex items-center space-x-2 text-xl font-bold text-indigo-600"><i data-lucide="sparkles"></i><span>Career Tarot</span></a>
+                <a href="#" onclick="startOver()" class="text-sm font-medium text-gray-600 hover:text-indigo-600">Start Over</a>
+            </div>
+        </header>
+        <main class="container mx-auto p-4 md:p-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900">Your Personalized Career Reading</h1>
+            <p id="roadmap-subtitle" class="mt-2 text-lg text-gray-600">Based on your unique profile, here are the top career paths we recommend exploring.</p>
+            
+            <div id="astro-cta-container" class="mt-6 p-4 bg-purple-100 border border-purple-200 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-purple-600"></i>
+                    <div>
+                        <h3 class="font-bold text-purple-800">Enhance Your Reading!</h3>
+                        <p class="text-sm text-purple-700">Add Vedic astrology insights for a deeper, more personalized career analysis.</p>
+                    </div>
+                </div>
+                <button onclick="goToAstrologyPage()" class="bg-purple-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-purple-700 flex-shrink-0">Add Astrological Insights</button>
+            </div>
+
+            <div class="mt-8 border-b border-gray-200">
+                <nav id="tabs-container" class="flex flex-wrap -mb-px" aria-label="Tabs"></nav>
+            </div>
+            
+            <div id="tabs-content-container" class="mt-8"></div>
+        </main>
+    </div>
+    <div id="page-employer-dashboard" class="page">
+        <header class="bg-white shadow-sm p-4 sticky top-0 z-10">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="#" onclick="showPage('page-landing')" class="flex items-center space-x-2 text-xl font-bold text-purple-600"><i data-lucide="sparkles"></i><span>Career Tarot</span></a>
+                <div class="font-semibold">Employer Portal</div>
+            </div>
+        </header>
+        <main class="container mx-auto p-4 md:p-8">
+            <h1 class="text-4xl font-extrabold text-gray-900">Find Your Next Innovator</h1>
+            <p class="text-gray-600 mt-2">Use the filters below to discover a pipeline of pre-vetted, high-potential student talent.</p>
+            <div class="mt-8 bg-white p-6 rounded-xl shadow-lg border grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"><div><label class="text-sm font-medium">Field of Study</label><input type="text" placeholder="e.g., Marketing" class="w-full mt-1 p-2 border rounded-md"></div><div><label class="text-sm font-medium">Technical Skill</label><input type="text" placeholder="e.g., Figma, Python" class="w-full mt-1 p-2 border rounded-md"></div><div><label class="text-sm font-medium">Interest Profile</label><select class="w-full mt-1 p-2 border rounded-md"><option>Any</option><option>Creator (Artistic)</option><option>Thinker (Investigative)</option><option>Persuader (Enterprising)</option></select></div><div class="self-end"><button class="w-full bg-purple-600 text-white font-bold py-2 px-4 rounded-md hover:bg-purple-700">Search</button></div></div>
+            <div class="mt-8"><h2 class="text-2xl font-bold">Matching Candidates (3 found)</h2><div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md border hover:border-purple-400 transition-colors"><div class="flex justify-between items-start"><h3 class="text-lg font-bold">CS Student, Class of 2026</h3><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-full">95% Match</span></div><p class="text-sm text-gray-500 mt-1">University of Lucknow</p><div class="mt-4 border-t pt-4"><h4 class="text-sm font-semibold">Top Skills:</h4><div class="flex flex-wrap gap-2 mt-2"><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">Python</span><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">SQL</span><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">Problem-Solving</span></div></div><button class="w-full mt-4 bg-gray-800 text-white font-bold py-2 rounded-lg text-sm">Request Introduction</button></div>
+                <div class="bg-white p-6 rounded-xl shadow-md border hover:border-purple-400 transition-colors"><div class="flex justify-between items-start"><h3 class="text-lg font-bold">Design Student, Class of 2025</h3><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-1 rounded-full">88% Match</span></div><p class="text-sm text-gray-500 mt-1">Amity University</p><div class="mt-4 border-t pt-4"><h4 class="text-sm font-semibold">Top Skills:</h4><div class="flex flex-wrap gap-2 mt-2"><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">Figma</span><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">User Research</span><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">Creativity</span></div></div><button class="w-full mt-4 bg-gray-800 text-white font-bold py-2 rounded-lg text-sm">Request Introduction</button></div>
+                <div class="bg-white p-6 rounded-xl shadow-md border hover:border-purple-400 transition-colors"><div class="flex justify-between items-start"><h3 class="text-lg font-bold">Marketing Student, Class of 2025</h3><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-1 rounded-full">82% Match</span></div><p class="text-sm text-gray-500 mt-1">Integral University</p><div class="mt-4 border-t pt-4"><h4 class="text-sm font-semibold">Top Skills:</h4><div class="flex flex-wrap gap-2 mt-2"><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">SEO</span><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">Google Analytics</span><span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">Communication</span></div></div><button class="w-full mt-4 bg-gray-800 text-white font-bold py-2 rounded-lg text-sm">Request Introduction</button></div>
+            </div></div>
+        </main>
+    </div>
+
+<script>
+    // ===================================================================
+    // GLOBAL NAVIGATION & STATE MANAGEMENT
+    // ===================================================================
+    let currentOnboardingStep = 1;
+    const totalOnboardingSteps = 7;
+    let studentProfileData = null;
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        const newPage = document.getElementById(pageId);
+        if (newPage) {
+            newPage.classList.add('active');
+            window.scrollTo(0, 0);
+            lucide.createIcons();
+        }
+    }
+
+    function startOver() {
+        studentProfileData = null;
+        document.getElementById('onboarding-form').reset();
+        document.getElementById('astrology-form').reset();
+        document.getElementById('hard-skills-container').innerHTML = '';
+        document.getElementById('soft-skills-tags-container').innerHTML = '';
+        document.getElementById('disinterests-container').innerHTML = '';
+        document.getElementById('experience-container').innerHTML = '';
+        showOnboardingStep(1);
+        showPage('page-student-onboarding');
+    }
+
+    // ===================================================================
+    // STUDENT ONBOARDING LOGIC
+    // ===================================================================
+    function updateProgress() {
+        const progress = ((currentOnboardingStep - 1) / (totalOnboardingSteps - 1)) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        document.getElementById('progress-text').textContent = `Step ${currentOnboardingStep} of ${totalOnboardingSteps}`;
+    }
+
+    function showOnboardingStep(step) {
+        document.querySelectorAll('.step-card').forEach(card => card.classList.remove('active'));
+        const newStep = document.getElementById(`step-${step}`);
+        if (newStep) {
+            newStep.classList.add('active');
+            currentOnboardingStep = step;
+            updateProgress();
+            lucide.createIcons();
+        }
+    }
+
+    function prevStep(step) {
+        showOnboardingStep(step);
+    }
+
+    function nextStep(step) {
+        if (validateStep(currentOnboardingStep)) {
+            showOnboardingStep(step);
+        }
+    }
+
+    function validateStep(step) {
+        let isValid = true;
+        const stepDiv = document.getElementById(`step-${step}`);
+        const inputs = stepDiv.querySelectorAll('input[required], select[required]');
+
+        inputs.forEach(input => {
+             input.style.borderColor = ''; // Reset border
+            if (!input.checkValidity() || input.value.trim() === "") {
+                isValid = false;
+                input.style.borderColor = '#e53e3e';
+            }
+        });
+
+        if (step === 2) {
+            const hardSkills = document.getElementById('hard-skills-hidden').value.split(',').filter(Boolean);
+            const softSkills = document.getElementById('soft-skills-hidden').value.split(',').filter(Boolean);
+            const hardSkillsInput = document.getElementById('hard-skills-input');
+            const softSkillsInput = document.getElementById('soft-skills-input');
+
+            hardSkillsInput.style.borderColor = '';
+            softSkillsInput.style.borderColor = '';
+
+            if (hardSkills.length < 1) {
+                hardSkillsInput.style.borderColor = '#e53e3e';
+                isValid = false;
+            }
+            if (softSkills.length < 3) {
+                softSkillsInput.style.borderColor = '#e53e3e';
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+
+    function setupSkillTagging(inputId, addButtonId, containerId, hiddenInputId, colorClass) {
+        const input = document.getElementById(inputId);
+        const addButton = document.getElementById(addButtonId);
+        const container = document.getElementById(containerId);
+        const hiddenInput = document.getElementById(hiddenInputId);
+
+        const updateHiddenInput = () => {
+            const tags = Array.from(container.children).map(tag => tag.textContent.slice(0, -1).trim());
+            hiddenInput.value = tags.join(',');
+            // Manually set as valid if conditions are met to clear red border
+            if (hiddenInputId === 'hard-skills-hidden' && tags.length >= 1) hiddenInput.setCustomValidity('');
+            if (hiddenInputId === 'soft-skills-hidden' && tags.length >= 3) hiddenInput.setCustomValidity('');
+
+        };
+
+        const addSkill = () => {
+            const skill = input.value.trim();
+            if (skill) {
+                const tag = document.createElement('span');
+                tag.className = `tag ${colorClass} text-white text-sm font-medium px-3 py-1 rounded-full flex items-center cursor-pointer`;
+                tag.innerHTML = `${skill} <i data-lucide="x" class="w-4 h-4 ml-1"></i>`;
+                
+                tag.addEventListener('click', () => {
+                    container.removeChild(tag);
+                    updateHiddenInput();
+                });
+
+                container.appendChild(tag);
+                lucide.createIcons();
+                input.value = '';
+                updateHiddenInput();
+                input.style.borderColor = '';
+            }
+        };
+
+        addButton.addEventListener('click', addSkill);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
+            }
+        });
+    }
+
+    function setupWorkExperience() {
+        const container = document.getElementById('experience-container');
+        const addButton = document.getElementById('add-experience-btn');
+        let experienceCount = 0;
+
+        addButton.addEventListener('click', () => {
+            experienceCount++;
+            const experienceDiv = document.createElement('div');
+            experienceDiv.className = 'p-4 border rounded-lg relative space-y-2 bg-gray-50';
+            experienceDiv.innerHTML = `
+                <button type="button" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 p-1 rounded-full leading-none text-xl font-bold">&times;</button>
+                <div><label class="text-sm font-medium">Job Title</label><input type="text" name="jobTitle${experienceCount}" class="w-full mt-1 p-2 border rounded-md"></div>
+                <div><label class="text-sm font-medium">Company</label><input type="text" name="company${experienceCount}" class="w-full mt-1 p-2 border rounded-md"></div>
+                <div><label class="text-sm font-medium">Duration (e.g., 6 months)</label><input type="text" name="duration${experienceCount}" class="w-full mt-1 p-2 border rounded-md"></div>
+            `;
+            experienceDiv.querySelector('button').addEventListener('click', () => {
+                container.removeChild(experienceDiv);
+            });
+            container.appendChild(experienceDiv);
+        });
+    }
+
+    function populateDateSelectors() {
+        const daySelect = document.querySelector('select[name="birthDay"]');
+        for (let i = 1; i <= 31; i++) {
+            daySelect.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        const yearSelect = document.querySelector('select[name="birthYear"]');
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear; i >= currentYear - 100; i--) {
+            yearSelect.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+    }
+    
+    // ===================================================================
+    // FORM SUBMISSION & ROADMAP GENERATION
+    // ===================================================================
+    
+    function collectOnboardingData() {
+        const form = document.getElementById('onboarding-form');
+        const formData = new FormData(form);
+        const profile = Object.fromEntries(formData.entries());
+
+        // Process skills
+        profile['hard-skills'] = profile['hard-skills'].split(',').filter(Boolean);
+        profile['soft-skills'] = profile['soft-skills'].split(',').filter(Boolean);
+        profile.disinterests = (formData.get('disinterests') || '').split(',').filter(Boolean).map(s => s.toLowerCase());
+
+        // Process interests
+        profile.interests = {};
+        document.querySelectorAll('.interest-slider').forEach(slider => {
+            profile.interests[slider.dataset.interest] = slider.value;
+        });
+
+        // Process work experience
+        profile.experience = [];
+        const experienceContainer = document.getElementById('experience-container');
+        const experiences = experienceContainer.querySelectorAll('div.p-4');
+        experiences.forEach((expDiv, index) => {
+            const jobTitle = expDiv.querySelector(`input[name="jobTitle${index + 1}"]`).value;
+            const company = expDiv.querySelector(`input[name="company${index + 1}"]`).value;
+            const duration = expDiv.querySelector(`input[name="duration${index + 1}"]`).value;
+            if (jobTitle && company) {
+                profile.experience.push({ jobTitle, company, duration });
+            }
+        });
+        
+        return profile;
+    }
+
+    document.getElementById('onboarding-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const profile = collectOnboardingData();
+        studentProfileData = profile; // Store data globally
+        generateRoadmap(profile);
+        
+        // Setup roadmap page for the first time
+        const astroCTA = document.getElementById('astro-cta-container');
+        if(astroCTA) astroCTA.style.display = 'flex';
+        const roadmapSubtitle = document.getElementById('roadmap-subtitle');
+        if(roadmapSubtitle) roadmapSubtitle.textContent = 'Based on your unique profile, here are the top career paths we recommend exploring.';
+        
+        showPage('page-student-roadmap');
+    });
+
+    function goToAstrologyPage() {
+        // studentProfileData is already populated when the roadmap was first generated.
+        showPage('page-astrology');
+    }
+
+    document.getElementById('astrology-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!studentProfileData) {
+            alert("Please complete the onboarding process first.");
+            startOver();
+            return;
+        }
+        const astroForm = document.getElementById('astrology-form');
+        const astroFormData = new FormData(astroForm);
+        const astroData = Object.fromEntries(astroFormData.entries());
+        const combinedProfile = { ...studentProfileData, ...astroData };
+        generateRoadmap(combinedProfile);
+
+        // Update roadmap page after adding astro insights
+        const astroCTA = document.getElementById('astro-cta-container');
+        if(astroCTA) astroCTA.style.display = 'none';
+        const roadmapSubtitle = document.getElementById('roadmap-subtitle');
+        if(roadmapSubtitle) roadmapSubtitle.textContent = 'Based on your unique profile and cosmic alignment, here are the top career paths we recommend exploring.';
+
+        showPage('page-student-roadmap');
+    });
+
+    function getAstroInsights(profile) {
+        if (!profile.birthMonth) return null;
+
+        const month = parseInt(profile.birthMonth);
+        let insights = {};
+
+        switch (month) {
+            case 1: insights = { sign: 'Capricorn', influence: 'Ambitious & Disciplined', hint: 'Leadership roles, management, finance, and engineering are favored.' }; break;
+            case 2: insights = { sign: 'Aquarius', influence: 'Innovative & Humanitarian', hint: 'Technology, social work, science, and unconventional careers suit you.' }; break;
+            case 3: insights = { sign: 'Pisces', influence: 'Creative & Intuitive', hint: 'Arts, healing professions, psychology, and spiritual fields are strong.' }; break;
+            case 4: insights = { sign: 'Aries', influence: 'Energetic & Pioneering', hint: 'Entrepreneurship, competitive roles, and positions of authority are a good fit.' }; break;
+            case 5: insights = { sign: 'Taurus', influence: 'Reliable & Practical', hint: 'Stable careers in finance, design, agriculture, and luxury goods are beneficial.' }; break;
+            case 6: insights = { sign: 'Gemini', influence: 'Communicative & Versatile', hint: 'Media, teaching, sales, and any field requiring networking and adaptability.' }; break;
+            case 7: insights = { sign: 'Cancer', influence: 'Nurturing & Tenacious', hint: 'Careers in healthcare, real estate, education, and hospitality are well-aspected.' }; break;
+            case 8: insights = { sign: 'Leo', influence: 'Confident & Charismatic', hint: 'Leadership, entertainment, public relations, and creative direction are your calling.' }; break;
+            case 9: insights = { sign: 'Virgo', influence: 'Analytical & Meticulous', hint: 'Research, health services, data analysis, and detailed-oriented crafts.' }; break;
+            case 10: insights = { sign: 'Libra', influence: 'Diplomatic & Social', hint: 'Law, human resources, arts, and roles involving partnership and negotiation.' }; break;
+            case 11: insights = { sign: 'Scorpio', influence: 'Resourceful & Focused', hint: 'Investigation, psychology, finance, and research fields are where you thrive.' }; break;
+            case 12: insights = { sign: 'Sagittarius', influence: 'Optimistic & Philosophical', hint: 'Travel, publishing, academia, and roles that allow for freedom and exploration.' }; break;
+            default: return null;
+        }
+
+        return `
+            <div class="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                <h3 class="font-bold text-purple-800 flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5"></i>Vedic Astrology Insight</h3>
+                <p class="text-sm text-purple-700 mt-1">Your <strong>${insights.sign}</strong> sign indicates a core personality that is <strong>${insights.influence}</strong>. ${insights.hint}</p>
+            </div>
+        `;
+    }
+
+    function generateCivilExamsHTML(profile) {
+        let recommendations = [];
+        const age = parseInt(profile.age, 10);
+        const major = profile.major.toLowerCase();
+        const skills = profile['hard-skills'].map(s => s.toLowerCase());
+
+        // Recommendation 1: UPSC CSE (General)
+        if (age >= 21 && age < 32) {
+            recommendations.push({
+                name: "UPSC Civil Services Examination (CSE)",
+                reason: "A prestigious exam for top administrative roles (IAS, IPS). Your analytical skills and structured thinking are valuable assets for the General Studies papers.",
+                eligibility: "Eligibility: 21-32 years. You are within the age limit.",
+                icon: "shield"
+            });
+        }
+
+        // Recommendation 2: Engineering/Technical Specific
+        if (major.includes('computer') || major.includes('engineering') || major.includes('technology') || skills.includes('python') || skills.includes('java')) {
+            if (age >= 21 && age < 30) {
+                recommendations.push({
+                    name: "UPSC Engineering Services Examination (ESE)",
+                    reason: "Directly leverages your technical degree for engineering roles in various government departments like Railways, Central Water Commission, etc.",
+                    eligibility: "Eligibility: 21-30 years. Your background is a perfect fit.",
+                    icon: "cpu"
+                });
+            }
+        }
+        
+        // Recommendation 3: PSUs via GATE
+        if (major.includes('computer') || major.includes('engineering') || major.includes('technology')) {
+            recommendations.push({
+                name: "Public Sector Undertakings (PSUs) via GATE",
+                reason: "Top PSUs like ONGC, IOCL, NTPC recruit based on GATE scores. This path offers excellent technical roles with high job security.",
+                eligibility: "Varies by PSU, but your engineering background is key.",
+                icon: "factory"
+            });
+        }
+        
+        // Recommendation 4: State PSC
+        recommendations.push({
+            name: "State Public Service Commission (e.g., UPPCS)",
+            reason: "State-level administrative and technical roles. The syllabus often aligns with UPSC CSE but with a focus on state-specific knowledge.",
+            eligibility: "Age limits are generally more relaxed than UPSC.",
+            icon: "map"
+        });
+
+        if (recommendations.length === 0) {
+            return '';
+        }
+
+        const recommendationsHTML = recommendations.map(rec => `
+            <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <div class="bg-indigo-100 p-2 rounded-full mt-1 flex-shrink-0">
+                    <i data-lucide="${rec.icon}" class="w-6 h-6 text-indigo-600"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800">${rec.name}</h4>
+                    <p class="text-sm text-gray-600">${rec.reason}</p>
+                    <p class="text-xs text-green-700 mt-2 font-medium bg-green-100 px-2 py-1 rounded-full inline-block">${rec.eligibility}</p>
+                </div>
+            </div>
+        `).join('');
+
+        return `
+            <div class="mt-8 pt-6 border-t">
+                <h3 class="text-2xl font-bold">Recommended Civil Service Exams</h3>
+                <p class="text-gray-600 mt-1 mb-4">Based on your age (${profile.age}) and technical background, here are some exams to consider:</p>
+                <div class="space-y-4">
+                    ${recommendationsHTML}
+                </div>
+            </div>
+        `;
+    }
+
+    function generateRoadmap(profile) {
+        const tabsContainer = document.getElementById('tabs-container');
+        const contentContainer = document.getElementById('tabs-content-container');
+        tabsContainer.innerHTML = '';
+        contentContainer.innerHTML = '';
+
+        const astroHTML = getAstroInsights(profile);
+        const civilExamsHTML = generateCivilExamsHTML(profile);
+
+        const allJobRoles = {
+            private: [
+                { 
+                    id: "sde",
+                    title: "Software Developer", 
+                    why: `With a major in <strong>${profile.major}</strong> and strong technical skills like <strong>${profile['hard-skills'][0] || 'problem-solving'}</strong>, you are well-suited for a development role. Your 'Thinker' interest profile aligns with the problem-solving nature of coding.`,
+                    skills: ["Python", "SQL", "Data Structures", "Git"], 
+                    steps: ["Learn a web framework like React (for frontend) or Django (for backend).", "Build 2-3 complex projects to showcase your skills.", "Contribute to an open-source project to gain real-world experience."],
+                    posts: ["Junior Software Engineer", "Backend Developer Intern", "Full Stack Developer Trainee"]
+                },
+                { 
+                    id: "da",
+                    title: "Data Analyst", 
+                    why: "Your analytical abilities and skills in data-related technologies make this a strong fit. This role allows you to turn data into actionable insights, which satisfies the 'Investigative' personality type.",
+                    skills: ["SQL", "Statistics", "Excel", "Tableau/Power BI"], 
+                    steps: ["Master a BI tool like Tableau or Power BI for visualization.", "Complete a project using a real-world dataset from Kaggle.", "Learn the fundamentals of Python libraries like Pandas and Matplotlib."],
+                    posts: ["Data Analyst Intern", "Business Intelligence Analyst", "Junior Data Scientist"]
+                }
+            ],
+            government: [
+                 { 
+                    id: "to",
+                    title: "Technical Officer (PSU)", 
+                    why: `Your technical background from your <strong>${profile.major}</strong> degree is highly valued in Public Sector Undertakings. These roles offer stability and the chance to work on large-scale national projects.`,
+                    skills: ["Project Management", "Technical Writing", "Domain Knowledge"], 
+                    steps: ["Prepare for the GATE exam, as it is the primary entry point for most technical PSU roles.", "Research specific PSUs relevant to your engineering discipline.", "Develop your general awareness and aptitude skills."],
+                    posts: ["Graduate Engineer Trainee (GET)", "Assistant Engineer", "Technical Officer"]
+                },
+                { 
+                    id: "csa",
+                    title: "Cyber Security Analyst", 
+                    why: "With the government's increasing focus on digital security, your skills are in high demand. This role is perfect for those who enjoy the 'Investigative' challenge of finding and fixing vulnerabilities.",
+                    skills: ["Networking", "Ethical Hacking", "Cryptography", "Linux"], 
+                    steps: ["Earn a foundational certification like CompTIA Security+ or CEH.", "Participate in government-sponsored hackathons and bug bounty programs.", "Stay updated on the latest national and international cybersecurity policies."],
+                    posts: ["Cyber Security Intern (DRDO, CERT-In)", "Information Security Analyst", "Network Security Engineer"]
+                }
+            ],
+            freelance: [
+                {
+                    id: "freelance-dev",
+                    title: "Web Development Freelancer",
+                    why: "Leverage your coding skills to build websites for businesses. This path offers high autonomy and is ideal for 'Creator' types who enjoy bringing ideas to life and managing their own projects.",
+                    skills: ["HTML/CSS/JS", "React/Vue", "Client Communication", "CMS (WordPress)"],
+                    steps: ["Build a professional portfolio website showcasing at least 5 diverse projects.", "Join platforms like Upwork and Fiverr to find initial clients.", "Define your service packages, pricing, and contract terms clearly."],
+                    posts: ["Freelance Frontend Developer", "WordPress Developer", "Shopify Expert"]
+                },
+                {
+                    id: "content-creator",
+                    title: "Technical Content Creator",
+                    why: "You can monetize your knowledge by creating tutorials, courses, or articles. This suits your communication skills and allows you to build a personal brand in the tech community.",
+                    skills: ["Content Writing", "SEO", "Video Editing", "Public Speaking"],
+                    steps: ["Identify a niche you are passionate about (e.g., Python for data science).", "Start a blog or YouTube channel and post consistently (1-2 times a week).", "Engage with your audience on social media to build a community and credibility."],
+                    posts: ["Technical Blogger", "YouTube Tech Tutor", "Online Course Instructor"]
+                }
+            ]
+        };
+
+        // Filter roles based on disinterests
+        const filteredPrivateRoles = allJobRoles.private.filter(role => !profile.disinterests.some(d => role.title.toLowerCase().includes(d)));
+        const filteredGovRoles = allJobRoles.government.filter(role => !profile.disinterests.some(d => role.title.toLowerCase().includes(d)));
+        const filteredFreelanceRoles = allJobRoles.freelance.filter(role => !profile.disinterests.some(d => role.title.toLowerCase().includes(d)));
+
+
+        const careerPaths = {
+            "Private Sector": {
+                icon: "briefcase",
+                content: `
+                    ${astroHTML || ''}
+                    <h2 class="text-3xl font-bold">Top Private Sector Roles</h2>
+                    <p class="text-gray-600 mt-1">Based on your major in ${profile.major} and 'Thinker' interest profile.</p>
+                    <div class="mt-6 space-y-6">
+                        ${filteredPrivateRoles.map(role => createJobCard(role)).join('') || '<p class="text-gray-600">No recommended roles in this sector based on your profile and disinterests.</p>'}
+                    </div>
+                `
+            },
+            "Government Sector": {
+                icon: "landmark",
+                content: `
+                    ${astroHTML || ''}
+                    <h2 class="text-3xl font-bold">Top Government Roles</h2>
+                    <p class="text-gray-600 mt-1">Leveraging your communication skills and structured thinking.</p>
+                    <div class="mt-6 space-y-6">
+                         ${filteredGovRoles.map(role => createJobCard(role)).join('') || '<p class="text-gray-600">No recommended roles in this sector based on your profile and disinterests.</p>'}
+                    </div>
+                    ${civilExamsHTML}
+                `
+            },
+            "Freelance & Entrepreneurship": {
+                icon: "rocket",
+                content: `
+                     ${astroHTML || ''}
+                    <h2 class="text-3xl font-bold">Freelance & Business Ideas</h2>
+                    <p class="text-gray-600 mt-1">For your creative and independent spirit.</p>
+                     <div class="mt-6 space-y-6">
+                        ${filteredFreelanceRoles.map(role => createJobCard(role)).join('') || '<p class="text-gray-600">No recommended roles in this sector based on your profile and disinterests.</p>'}
+                    </div>
+                `
+            }
+        };
+
+        let isFirstTab = true;
+        for (const path in careerPaths) {
+            const tabBtn = document.createElement('button');
+            tabBtn.className = `tab-btn flex items-center gap-2 py-4 px-1 text-center border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 ${isFirstTab ? 'active' : ''}`;
+            tabBtn.innerHTML = `<i data-lucide="${careerPaths[path].icon}" class="w-5 h-5"></i> ${path}`;
+            tabBtn.dataset.tab = path;
+
+            const tabContent = document.createElement('div');
+            tabContent.className = `tab-content ${isFirstTab ? 'active' : ''}`;
+            tabContent.id = `content-${path}`;
+            tabContent.innerHTML = careerPaths[path].content;
+
+            tabsContainer.appendChild(tabBtn);
+            contentContainer.appendChild(tabContent);
+
+            tabBtn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                tabBtn.classList.add('active');
+                tabContent.classList.add('active');
+            });
+
+            isFirstTab = false;
+        }
+        lucide.createIcons();
+    }
+
+    function createJobCard(role) {
+        const { title, why, skills, steps, posts } = role;
+        const skillsHTML = skills.map(skill => `<span class="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded">${skill}</span>`).join('');
+        const stepsHTML = steps.map(step => `<li class="flex items-start gap-3"><div class="bg-indigo-100 rounded-full p-1 mt-1"><i data-lucide="check" class="w-3 h-3 text-indigo-600"></i></div><span class="text-gray-700">${step}</span></li>`).join('');
+        const postsHTML = posts.map(post => `<span class="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded">${post}</span>`).join('');
+        return `
+            <div class="bg-white p-6 rounded-xl shadow-lg border">
+                <h3 class="text-xl font-bold text-gray-800">${title}</h3>
+                
+                <div class="mt-4 border-t pt-4">
+                    <h4 class="font-semibold text-gray-800">Why it's a good fit:</h4>
+                    <p class="text-gray-600 mt-1 text-sm">${why}</p>
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="font-semibold">Key Skills:</h4>
+                    <div class="flex flex-wrap gap-2 mt-2">${skillsHTML}</div>
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="font-semibold">Your 3-Month Roadmap:</h4>
+                    <ul class="mt-2 space-y-2">${stepsHTML}</ul>
+                </div>
+
+                 <div class="mt-4">
+                    <h4 class="font-semibold">Sample Job Posts to Search For:</h4>
+                    <div class="flex flex-wrap gap-2 mt-2">${postsHTML}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    // ===================================================================
+    // INITIALIZATION
+    // ===================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        setupSkillTagging('hard-skills-input', 'add-hard-skill-btn', 'hard-skills-container', 'hard-skills-hidden', 'bg-indigo-500');
+        setupSkillTagging('soft-skills-input', 'add-soft-skill-btn', 'soft-skills-tags-container', 'soft-skills-hidden', 'bg-purple-500');
+        setupSkillTagging('disinterests-input', 'add-disinterest-btn', 'disinterests-container', 'disinterests-hidden', 'bg-red-400');
+        setupWorkExperience();
+        populateDateSelectors();
+        showPage('page-landing');
+        updateProgress();
+    });
+
+    </script>
+</body>
+</html>
