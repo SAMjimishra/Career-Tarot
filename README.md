@@ -7,7 +7,11 @@ It provides a smooth onboarding flow and generates a **personalized career roadm
 Employers can also explore talented profiles based on academic and interest parameters.
 
 ---
+## 🌐 Live Demo
 
+🔗 **[View Project on Vercel](https://career-tarot.vercel.app/)**  
+
+---
 ## 🚀 Features
 
 - 🧭 **Interactive Onboarding Flow** – Collects academic info, skills, interests, and goals through an engaging step-by-step process.  
@@ -51,21 +55,14 @@ career-tarot/
 
 ---
 
-## 🌐 Live Demo
-
-🔗 **[View Project on Vercel](https://career-tarot.vercel.app/)**  
-
----
-
 ## 👥 Team Members
 
-| Name | Role |
+| Name | Contribution|
 |------|------|
-| **Sameer Mishra** | Frontend Developer, UI/UX Designer |
-| **Priyanshu** | Layout & Styling Developer |
-| **Sawan** | JavaScript Logic & Flow Management |
-| **Pranjal** | Testing, Review & Documentation |
-
+| **Sameer** | Frontend Implementation, Styling, and Testing|
+| **[Priyanshu](https://github.com/priyanshugupta03)** | Core Development, UI/UX Design, Project Coordination |
+| **Sawan** | JavaScript Functionality, Logic Building, and Debugging |
+| **Pranjal** | Project research, team coordination, Quality Review, and Documentation |     	
 ---
 
 ## 📈 Future Enhancements
