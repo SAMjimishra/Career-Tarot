@@ -61,8 +61,8 @@ career-tarot/
 |------|------|
 | **Sameer** | Frontend Implementation, Styling, and Testing|
 | **[Priyanshu](https://github.com/priyanshugupta03)** | Core Development, UI/UX Design, Project Coordination |
-| **Sawan** | JavaScript Functionality, Logic Building, and Debugging |
-| **Pranjal** | Project research, team coordination, Quality Review, and Documentation |     	
+| **[Sawan](https://github.com/Sawansingh14)** | JavaScript Functionality, Logic Building, and Debugging |
+| **[Pranjal](https://github.com/pranjal-1403)** | Project research, team coordination, Quality Review, and Documentation |     	
 ---
 
 ## 📈 Future Enhancements
